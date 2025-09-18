@@ -1,3 +1,17 @@
+package models
+
+import (
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
+)
+
+func ConnectDB() (*gorm.DB, error) {
+	db, err := gorm.Open("sqlite3", "./uzm.db")
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
+}
 
 type User struct {
 	ID        uint `gorm:"primaryKey"`
@@ -22,6 +36,10 @@ type Book struct {
 type Inventory struct {
 	BookID            uint `gorm:"primaryKey"`
 	AvailableQuantity int
+}
+
+func (Inventory) TableName() string {
+  return "inventory"
 }
 
 type Loan struct {
